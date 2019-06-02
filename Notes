@@ -1,0 +1,14 @@
+- Used 'bundle gem headphones' in terminal to create this whole directory
+- ./bin/headphones in the terminal returns an error "-bash: ./bin/headphones: Permission denied"
+- ls-lah in terminal within the bin directory to show perms for each file
+- "-rw-r--r--   1 boonsimoh  staff    40B  1 Jun 15:34 headphones" shows that the 'headphones' file is not executable
+- "chmod +x headphones" in the terminal to make 'headphones' executable
+
+
+- User types headphones
+- Prints a list of top 10 headphones - brand and model names
+- Gives user ability to sort by different type of metrics
+- If user is interested in a particular set of headphones -> type in y/n in the terminal which would either
+open the link on amazon if the answer is y or just print a "thank you" message if the input is 'n'
+- see price in different currencies?
+- Need to scrape for url to detailed price comparisons and reviews

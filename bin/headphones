@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "./lib/headphones" #loads main lib of headphones
+
+Headphones::CLI.new.call #this should be all I need to start my programme
