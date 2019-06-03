@@ -46,6 +46,7 @@ class Headphones::CLI
       5. Value
       Enter "exit" to proceed
     DOC
+    puts ""
 
     input=gets.chomp.downcase
     case input
@@ -121,10 +122,13 @@ class Headphones::CLI
   end
 
   def price_comparison
+    puts ""
     prices_array=DetailsScraper.scrape_prices
     prices_array.each do |i|
       puts "#{i[:seller]} - #{i[:price]}"
     end
+    puts "Please visit #{self.review} for more details."
+    puts ""
   end
 
   def summary_review
@@ -136,6 +140,8 @@ class Headphones::CLI
     The Bad - #{reviews[:bad]}
     .....
     Bottom Line - #{reviews[:bottom_line]}
+    .....
+    Please visit #{self.review} for more details.
     .....
     DOC
   end
@@ -155,6 +161,7 @@ class Headphones::CLI
       case input
       when "1"
         menu
+        more_details
       when "2"
         list_sorted_headphones(@list)
         puts ""

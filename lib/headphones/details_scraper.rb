@@ -1,5 +1,5 @@
 
-class DetailsScraper
+class DetailsScraper #creating this class to accommodate the #more_details method in our controller
 
   attr_accessor :url,:details
 
@@ -9,8 +9,7 @@ class DetailsScraper
     @@details=Nokogiri::HTML(open(url))
   end
 
-  def self.scrape_prices #may wanna refactor so that we only scrape the details page once
-    # details=Nokogiri::HTML(open(url))
+  def self.scrape_prices
     sellers=[]
     @@details.css("div[section='wtbSmall'] div.col-3").each do |i|
       hash={
