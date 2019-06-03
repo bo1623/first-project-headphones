@@ -13,6 +13,7 @@ class Headphones::CLI
     puts ""
     menu
     more_details
+    #maybe insert another function to bring us back to any of the previous methods "review"
     goodbye
   end
 
@@ -79,7 +80,7 @@ class Headphones::CLI
   end
 
   def more_details
-    puts "If you would like to compare prices or read a detailed review, please enter the number of your headphone of interest from the list above:"
+    puts "If you would like to compare prices or read a detailed review, please enter the headphone number from the list above:"
     #assign the input to a new variable over here so we can call the right price comparison or review
     puts <<-DOC.gsub /^\s*/, ""
     What would you like to know more about?

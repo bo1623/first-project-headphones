@@ -24,10 +24,14 @@ class Headphones::Scraper
       }
       stats << stats_hash
     end
+    review_links=get_page.css("div.bestMeta a.review").map{|i| "https://www.cnet.com#{i.attr("href")}"}
+    comparison_links=get_page.css("div.pricing a.allPrice").map{|j| "https://www.cnet.com#{j.attr("href")}"}
     index=0
     headphones.each do |headphone,stat| #iterating over the array of stats to add the stats into the "headphones" hash
       headphones[headphone]=stats[index]
       headphones[headphone][:price]=price_array[index]
+      headphones[headphone][:review_url]=review_links[index]
+      headphones[headphone][:comparison_url]=comparison_links[index]
       index+=1
     end
     headphones
