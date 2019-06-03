@@ -3,7 +3,7 @@ require "pry"
 
 class Headphones::CLI
 
-  attr_accessor :list #maybe create instance variable list so that after sorting, the user can just hit the index
+  attr_accessor :list, :review #maybe create instance variable list so that after sorting, the user can just hit the index
   #of the sorted list to get more details on their most recently printed list
 
   def call
@@ -20,6 +20,7 @@ class Headphones::CLI
   def make_headphones
     collection_hash=Headphones::Scraper.new.stats
     Headphone.create_from_collection(collection_hash)
+    @list=Headphone.all
   end
 
 
@@ -81,9 +82,17 @@ class Headphones::CLI
 
   def more_details
     puts "If you would like to compare prices or read a detailed review, please enter the headphone number from the list above:"
+    input=gets.chomp.to_i
+    if (1..15).to_a.include?(input)
+      index=input-1
+      url=@list[index].review_url
+    else
+      puts "Please enter a valid number between 1 to 15"
+      more_details
+    end
     #assign the input to a new variable over here so we can call the right price comparison or review
     puts <<-DOC.gsub /^\s*/, ""
-    What would you like to know more about?
+    What would you like to know more about the #{@list[index].name}?
     1. Price Comparison
     2. Detailed Review
     DOC
@@ -91,7 +100,7 @@ class Headphones::CLI
     input = gets.chomp
     case input
     when "1"
-      puts "prices"
+      price_comparison(url)
     when "2"
       puts "review"
     when "exit"
@@ -99,6 +108,14 @@ class Headphones::CLI
     else
       puts "Please enter a valid option or 'exit'"
       more_details
+    end
+  end
+
+  def price_comparison(url)
+    @review=url
+    prices_hash=Headphones::Scraper.new.scrape_prices(@review)
+    prices_hash.each do |i|
+      puts "#{i[:seller]} - #{i[:price]}"
     end
   end
 
