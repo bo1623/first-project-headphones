@@ -3,7 +3,7 @@ require "pry"
 
 class Headphones::CLI
 
-  attr_accessor :list, :review #maybe create instance variable list so that after sorting, the user can just hit the index
+  attr_accessor :list, :review, :scrape #maybe create instance variable list so that after sorting, the user can just hit the index
   #of the sorted list to get more details on their most recently printed list
 
   def call
@@ -45,7 +45,7 @@ class Headphones::CLI
       3. Features
       4. Sound
       5. Value
-      Enter "exit" to quit programme
+      Enter "exit" to proceed
     DOC
 
     input=gets.chomp.downcase
@@ -100,9 +100,13 @@ class Headphones::CLI
     input = gets.chomp
     case input
     when "1"
-      price_comparison(url)
+      additional_scrape(url) #needs to be called so that @@details within the DetailsScraper
+      #class contains the html data so that price_comparison can work
+      price_comparison
     when "2"
-      puts "review"
+      additional_scrape(url) #needs to be called so that @@details within the DetailsScraper
+      #class contains the html data so that summary_review can work
+      summary_review
     when "exit"
       return
     else
@@ -111,12 +115,30 @@ class Headphones::CLI
     end
   end
 
-  def price_comparison(url)
+  def additional_scrape(url) #to run the scrape_details method within the DetailsScraper
+    #class. So that @@details contains the scraped html data
     @review=url
-    prices_hash=Headphones::Scraper.new.scrape_prices(@review)
-    prices_hash.each do |i|
+    DetailsScraper.scrape_details(@review)
+  end
+
+  def price_comparison
+    prices_array=DetailsScraper.scrape_prices
+    prices_array.each do |i|
       puts "#{i[:seller]} - #{i[:price]}"
     end
+  end
+
+  def summary_review
+    reviews=DetailsScraper.scrape_review
+    puts <<-DOC.gsub /^\s*/, ""
+    .....
+    The Good - #{reviews[:good]}
+    .....
+    The Bad - #{reviews[:bad]}
+    .....
+    Bottom Line - #{reviews[:bottom_line]}
+    .....
+    DOC
   end
 
   def goodbye

@@ -2,7 +2,9 @@ require 'open-uri'
 require 'nokogiri'
 require 'pry'
 
+
 class Headphones::Scraper
+
   def get_page
     Nokogiri::HTML(open("https://www.cnet.com/topics/headphones/best-headphones/stereo-bluetooth/"))
   end
@@ -35,21 +37,6 @@ class Headphones::Scraper
       index+=1
     end
     headphones
-  end
-
-  def scrape_prices(url)
-    details=Nokogiri::HTML(open(url))
-    sellers=[]
-    details.css("div[section='wtbSmall'] div.col-3").each do |i|
-      hash={
-        price: i.css("span[section*='price']").text.strip,
-        #[attribute*=value] enables us to select elements whose attribute value contains a specified value
-        #the value does not have to be a whole word
-        seller: i.css("span[section*='seller']").text.strip
-      }
-      sellers << hash
-    end
-    sellers
   end
 
 end
