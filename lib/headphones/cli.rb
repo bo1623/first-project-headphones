@@ -3,8 +3,7 @@ require "pry"
 
 class Headphones::CLI
 
-  attr_accessor :list, :review, :scrape #maybe create instance variable list so that after sorting, the user can just hit the index
-  #of the sorted list to get more details on their most recently printed list
+  attr_accessor :list, :review
 
   def call
     puts "Top 10 Headphones"
@@ -13,7 +12,7 @@ class Headphones::CLI
     puts ""
     menu
     more_details
-    #maybe insert another function to bring us back to any of the previous methods "review"
+    last_request
     goodbye
   end
 
@@ -26,14 +25,14 @@ class Headphones::CLI
 
   def list_headphones
     Headphone.all.each.with_index(1) do |headphone,index|
-      puts "#{index}. #{headphone.name} - USD #{headphone.price} || Design: #{headphone.design} - Features: #{headphone.features} - Sound: #{headphone.sound} - Value: #{headphone.value}"
+      puts "#{index}. #{headphone.name} - $#{headphone.price} || Design: #{headphone.design} - Features: #{headphone.features} - Sound: #{headphone.sound} - Value: #{headphone.value}"
     end
   end
 
 
   def list_sorted_headphones(list)
     list.each.with_index(1) do |headphone,index|
-      puts "#{index}. #{headphone.name} - USD #{headphone.price} || Design: #{headphone.design} - Features: #{headphone.features} - Sound: #{headphone.sound} - Value: #{headphone.value}"
+      puts "#{index}. #{headphone.name} - $#{headphone.price} || Design: #{headphone.design} - Features: #{headphone.features} - Sound: #{headphone.sound} - Value: #{headphone.value}"
     end
   end
 
@@ -140,6 +139,33 @@ class Headphones::CLI
     .....
     DOC
   end
+
+  def last_request
+    puts "Would you like to continue browsing (y/n)?"
+    input=gets.chomp.downcase
+    if input!="y"
+      return
+    else
+      puts <<-DOC.gsub /^\s*/, ""
+      Please choose one of the following options:
+      1. Return to view full list of headphones
+      2. Return to compare prices or read summary review
+      DOC
+      input=gets.chomp
+      case input
+      when "1"
+        menu
+      when "2"
+        list_sorted_headphones(@list)
+        puts ""
+        more_details
+      else
+        puts "Please enter valid option"
+        last_request
+      end
+    end
+  end
+
 
   def goodbye
     puts "Thank you and have a nice day!"
