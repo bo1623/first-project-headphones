@@ -6,10 +6,9 @@ class Headphones::CLI
   attr_accessor :list, :review
 
   def call
-    puts "Top 10 Headphones"
+    puts "Top 15 Headphones to Own for 2019"
     make_headphones
     list_headphones
-    puts ""
     menu
     more_details
     last_request
@@ -27,6 +26,7 @@ class Headphones::CLI
     Headphone.all.each.with_index(1) do |headphone,index|
       puts "#{index}. #{headphone.name} - $#{headphone.price} || Design: #{headphone.design} - Features: #{headphone.features} - Sound: #{headphone.sound} - Value: #{headphone.value}"
     end
+    puts ""
   end
 
 
@@ -81,7 +81,8 @@ class Headphones::CLI
   end
 
   def more_details
-    puts "If you would like to compare prices or read a detailed review, please enter the headphone number from the list above:"
+    puts ""
+    puts "If you would like to compare prices or read a summarized review, please enter the headphone number from the list above:"
     input=gets.chomp.to_i
     if (1..15).to_a.include?(input)
       index=input-1
@@ -94,8 +95,9 @@ class Headphones::CLI
     puts <<-DOC.gsub /^\s*/, ""
     What would you like to know more about the #{@list[index].name}?
     1. Price Comparison
-    2. Detailed Review
+    2. Summarized Review
     DOC
+    puts ""
 
     input = gets.chomp
     case input
@@ -144,6 +146,7 @@ class Headphones::CLI
     Please visit #{self.review} for more details.
     .....
     DOC
+    puts ""
   end
 
   def last_request
@@ -152,6 +155,7 @@ class Headphones::CLI
     if input!="y"
       return
     else
+      puts ""
       puts <<-DOC.gsub /^\s*/, ""
       Please choose one of the following options:
       1. Return to view full list of headphones

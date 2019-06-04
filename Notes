@@ -12,3 +12,4 @@
 open the link on amazon if the answer is y or just print a "thank you" message if the input is 'n'
 - see price in different currencies?
 - Need to scrape for url to detailed price comparisons and reviews
+- Add total points as one of attributes

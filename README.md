@@ -2,7 +2,7 @@
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/headphones`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-- A command line interface that provides us with the list of top 10 headphones for 2019
+- A command line interface that provides us with the list of top 15 headphones for 2019
 - Gives user ability to sort by different characteristics: e.g. price, battery life, weight, available colors(?)
 
 ## Installation
@@ -23,7 +23,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Type the below and follow the on-screen prompts
+
+    $ headphones
 
 ## Development
 
@@ -33,7 +35,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/headphones. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/bo1623/headphones. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
