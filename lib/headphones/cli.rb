@@ -24,7 +24,7 @@ class Headphones::CLI
 
   def list_headphones
     Headphone.all.each.with_index(1) do |headphone,index|
-      puts "#{index}. #{headphone.name} - $#{headphone.price} || Design: #{headphone.design} - Features: #{headphone.features} - Sound: #{headphone.sound} - Value: #{headphone.value}"
+      puts '%-40.40s'%"#{index}. #{headphone.name}"+" $#{headphone.price} || Design: "+"%2.2s"%"#{headphone.design}"+" - Features: #{headphone.features} - Sound: "+"%2.2s"%"#{headphone.sound}"+" - Value: #{headphone.value}"
     end
     puts ""
   end
@@ -32,7 +32,7 @@ class Headphones::CLI
 
   def list_sorted_headphones(list)
     list.each.with_index(1) do |headphone,index|
-      puts "#{index}. #{headphone.name} - $#{headphone.price} || Design: #{headphone.design} - Features: #{headphone.features} - Sound: #{headphone.sound} - Value: #{headphone.value}"
+      puts '%-40.40s'%"#{index}. #{headphone.name}"+" $#{headphone.price} || Design: "+"%2.2s"%"#{headphone.design}"+" - Features: #{headphone.features} - Sound: "+"%2.2s"%"#{headphone.sound}"+" - Value: #{headphone.value}"
     end
   end
 
