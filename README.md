@@ -1,9 +1,6 @@
 # Headphones
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/headphones`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-- A command line interface that provides us with the list of top 15 headphones for 2019
-- Gives user ability to sort by different characteristics: e.g. price, battery life, weight, available colors(?)
+This Ruby Gem provides a command line interface that shows us the list of top 15 headphones for 2019 recommended by www.cnet.com and allows the user to make comparisons across different characteristics: e.g. price, design, features, sound, value. It also gives the user the option to drill further down into price comparison or a summarized review for a specific headphone
 
 ## Installation
 

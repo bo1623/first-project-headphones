@@ -13,3 +13,18 @@ open the link on amazon if the answer is y or just print a "thank you" message i
 - see price in different currencies?
 - Need to scrape for url to detailed price comparisons and reviews
 - Add total points as one of attributes
+
+Refactoring
+- Had to split #more_details into two sections because if an invalid number was entered when asking for the headphone number,
+the code would break with an error `more_details': no implicit conversion from nil to integer (TypeError)' due to this line
+'What would you like to know more about the #{@list[index].name}?'
+- The error arose because 'index' was set to be nil. Although the "else" condition within #more_details
+  {else
+    puts "Please enter 'exit' or a valid number between 1 to 15"
+    more_details}
+  And even if we entered a valid number, the input would still have been retained as the invalid number and index would not have
+  been set before moving out of that block to print "What would you like to know more about the #{@list[index].name}?"
+- So I created the #run_details method to be called within the #more_details method, only if the number entered was valid
+  Otherwise, more_details would just keep getting called until a valid number or "exit" was typed
+- So since I was splitting the initial #more_details into different sub-methods, I needed to create an instance variable out of
+  "index" so that the specific headphone the user had chosen would be recognised in other methods

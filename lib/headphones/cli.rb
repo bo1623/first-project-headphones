@@ -3,7 +3,7 @@ require "pry"
 
 class Headphones::CLI
 
-  attr_accessor :list, :review
+  attr_accessor :list, :review, :details, :index
 
   def call
     puts "Top 15 Headphones to Own for 2019"
@@ -74,7 +74,6 @@ class Headphones::CLI
       return
     else
       puts "Please enter valid option"
-      menu #restarts the menu process and repeats options available
     end
     puts ""
     menu #allows user to keep sorting according to different attributes until he/she decides to exit
@@ -83,49 +82,57 @@ class Headphones::CLI
   def more_details
     puts ""
     puts "If you would like to compare prices or read a summarized review, please enter the headphone number from the list above:"
-    input=gets.chomp.to_i
-    if (1..15).to_a.include?(input)
-      index=input-1
-      url=@list[index].review_url
+    input=gets.chomp
+    if input=="exit"
+      return
+    elsif (1..15).to_a.include?(input.to_i)
+      @index=input.to_i-1
+      run_details
     else
-      puts "Please enter a valid number between 1 to 15"
+      puts "Please enter 'exit' or a valid number between 1 to 15"
       more_details
     end
     #assign the input to a new variable over here so we can call the right price comparison or review
+  end
+
+  def run_details
     puts <<-DOC.gsub /^\s*/, ""
-    What would you like to know more about the #{@list[index].name}?
+    What would you like to know more about the #{@list[@index].name}?
     1. Price Comparison
     2. Summarized Review
     DOC
     puts ""
+    #since the user has chosen a number already, we can be certain that they would like to view more details now
+    #so it makes sense to scrape the additional details here
+    additional_scrape(@list[@index].review_url) #needs to be called so that the DetailsScraper object gets initialized
+    #with @details containing the html we'll be scraping - important for price_comparison and summary_review to work
+    details_choice
+  end
 
+  def details_choice
     input = gets.chomp
     case input
     when "1"
-      additional_scrape(url) #needs to be called so that @@details within the DetailsScraper
-      #class contains the html data so that price_comparison can work
       price_comparison
     when "2"
-      additional_scrape(url) #needs to be called so that @@details within the DetailsScraper
-      #class contains the html data so that summary_review can work
       summary_review
     when "exit"
       return
     else
       puts "Please enter a valid option or 'exit'"
-      more_details
+      details_choice
     end
   end
 
   def additional_scrape(url) #to run the scrape_details method within the DetailsScraper
-    #class. So that @@details contains the scraped html data
-    @review=url
-    DetailsScraper.scrape_details(@review)
+    #class. So that @details contains the scraped html data
+    @review=url #need this local variable for the 'Please visit randomheadphone.com for more details in #summary_review'
+    @details=DetailsScraper.new(@review)
   end
 
   def price_comparison
     puts ""
-    prices_array=DetailsScraper.scrape_prices
+    prices_array=@details.scrape_prices
     prices_array.each do |i|
       puts "#{i[:seller]} - #{i[:price]}"
     end
@@ -134,7 +141,7 @@ class Headphones::CLI
   end
 
   def summary_review
-    reviews=DetailsScraper.scrape_review
+    reviews=@details.scrape_review
     puts <<-DOC.gsub /^\s*/, ""
     .....
     The Good - #{reviews[:good]}
