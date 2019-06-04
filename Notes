@@ -6,7 +6,7 @@
 
 
 - User types headphones
-- Prints a list of top 10 headphones - brand and model names
+- Prints a list of top 15 headphones - brand and model names
 - Gives user ability to sort by different type of metrics
 - If user is interested in a particular set of headphones -> type in y/n in the terminal which would either
 open the link on amazon if the answer is y or just print a "thank you" message if the input is 'n'
@@ -16,8 +16,8 @@ open the link on amazon if the answer is y or just print a "thank you" message i
 
 Refactoring
 - Had to split #more_details into two sections because if an invalid number was entered when asking for the headphone number,
-the code would break with an error `more_details': no implicit conversion from nil to integer (TypeError)' due to this line
-'What would you like to know more about the #{@list[index].name}?'
+  the code would break with an error `more_details': no implicit conversion from nil to integer (TypeError)' due to this line
+  'What would you like to know more about the #{@list[index].name}?'
 - The error arose because 'index' was set to be nil. Although the "else" condition within #more_details
   {else
     puts "Please enter 'exit' or a valid number between 1 to 15"

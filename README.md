@@ -1,6 +1,8 @@
 # Headphones
 
-This Ruby Gem provides a command line interface that shows us the list of top 15 headphones for 2019 recommended by www.cnet.com and allows the user to make comparisons across different characteristics: e.g. price, design, features, sound, value. It also gives the user the option to drill further down into price comparison or a summarized review for a specific headphone
+This Ruby Gem provides a command line interface that shows us the list of top 15 headphones for 2019 recommended by www.cnet.com and allows the user to make comparisons across different characteristics: e.g. price, design, features, sound, value.
+
+It also gives the user the option to drill further down into price comparison or a summarized review for a specific headphone.
 
 ## Installation
 

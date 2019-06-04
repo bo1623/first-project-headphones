@@ -1,12 +1,13 @@
 #this is our CLI controller class
 require "pry"
+require "colorize"
 
 class Headphones::CLI
 
   attr_accessor :list, :review, :details, :index
 
   def call
-    puts "Top 15 Headphones to Own for 2019"
+    puts "Top 15 Headphones to Own for 2019".colorize(:cyan).underline
     make_headphones
     list_headphones
     menu
@@ -25,6 +26,7 @@ class Headphones::CLI
   def list_headphones
     Headphone.all.each.with_index(1) do |headphone,index|
       puts '%-40.40s'%"#{index}. #{headphone.name}"+" $#{headphone.price} || Design: "+"%2.2s"%"#{headphone.design}"+" - Features: #{headphone.features} - Sound: "+"%2.2s"%"#{headphone.sound}"+" - Value: #{headphone.value}"
+      #added format string e.g. '%-40.40s' so that the lists seem neater. the negative sign ensures the string is aligned to the left, otherwise it'll align to the right
     end
     puts ""
   end
@@ -37,8 +39,8 @@ class Headphones::CLI
   end
 
   def menu
+    puts "Please select category to sort by:".colorize(:cyan)
     puts <<-DOC.gsub /^\s*/, ""
-      Please select category to sort by:
       1. Price
       2. Design
       3. Features
@@ -51,29 +53,29 @@ class Headphones::CLI
     input=gets.chomp.downcase
     case input
     when "1"
-      puts "Sort by price (cheapest to most expensive)"
+      puts "Sort by price (cheapest to most expensive)".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.price}
       list_sorted_headphones(@list)
     when "2"
-      puts "Sort by design"
+      puts "Sort by design".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.design}.reverse! #included reverse for all cases below so that the ones with higher points appear on top
       list_sorted_headphones(@list)
     when "3"
-      puts "Sort by features"
+      puts "Sort by features".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.features}.reverse!
       list_sorted_headphones(@list)
     when "4"
-      puts "Sort by sound"
+      puts "Sort by sound".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.sound}.reverse!
       list_sorted_headphones(@list)
     when "5"
-      puts "Sort by value"
+      puts "Sort by value".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.value}.reverse!
       list_sorted_headphones(@list)
     when "exit"
       return
     else
-      puts "Please enter valid option"
+      puts "Please enter valid option".colorize(:light_red)
     end
     puts ""
     menu #allows user to keep sorting according to different attributes until he/she decides to exit
@@ -81,7 +83,7 @@ class Headphones::CLI
 
   def more_details
     puts ""
-    puts "If you would like to compare prices or read a summarized review, please enter the headphone number from the list above:"
+    puts "If you would like to compare prices or read a summarized review, please enter the headphone number from the list above:".colorize(:cyan)
     input=gets.chomp
     if input=="exit"
       return
@@ -89,15 +91,16 @@ class Headphones::CLI
       @index=input.to_i-1
       run_details
     else
-      puts "Please enter 'exit' or a valid number between 1 to 15"
+      puts "Please enter 'exit' or a valid number between 1 to 15".colorize(:light_red)
       more_details
     end
     #assign the input to a new variable over here so we can call the right price comparison or review
   end
 
   def run_details
+    puts ""
+    puts "What would you like to know more about the #{@list[@index].name}?".colorize(:cyan)
     puts <<-DOC.gsub /^\s*/, ""
-    What would you like to know more about the #{@list[@index].name}?
     1. Price Comparison
     2. Summarized Review
     DOC
@@ -119,7 +122,7 @@ class Headphones::CLI
     when "exit"
       return
     else
-      puts "Please enter a valid option or 'exit'"
+      puts "Please enter a valid option or 'exit'".colorize(:light_red)
       details_choice
     end
   end
@@ -157,14 +160,14 @@ class Headphones::CLI
   end
 
   def last_request
-    puts "Would you like to continue browsing (y/n)?"
+    puts "Would you like to continue browsing (y/n)?".colorize(:cyan)
     input=gets.chomp.downcase
     if input!="y"
       return
     else
       puts ""
+      puts "Please choose one of the following options:".colorize(:cyan)
       puts <<-DOC.gsub /^\s*/, ""
-      Please choose one of the following options:
       1. Return to view full list of headphones
       2. Return to compare prices or read summary review
       DOC
@@ -178,7 +181,7 @@ class Headphones::CLI
         puts ""
         more_details
       else
-        puts "Please enter valid option"
+        puts "Please enter valid option".colorize(:light_red)
         last_request
       end
     end
@@ -186,7 +189,7 @@ class Headphones::CLI
 
 
   def goodbye
-    puts "Thank you and have a nice day!"
+    puts "Thank you and have a nice day!".colorize(:cyan)
   end
 
 end
