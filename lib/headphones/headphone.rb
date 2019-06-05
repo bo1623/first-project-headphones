@@ -1,6 +1,6 @@
 class Headphone
 
-  attr_accessor :name, :price, :design, :features, :sound, :value, :review_url, :comparison_url
+  attr_accessor :name, :price, :design, :features, :sound, :value, :total, :review_url, :comparison_url
 
   @@all=[]
 

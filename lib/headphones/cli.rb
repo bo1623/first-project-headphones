@@ -7,6 +7,7 @@ class Headphones::CLI
   attr_accessor :list, :review, :details, :index
 
   def call
+    puts ""
     puts "Top 15 Headphones to Own for 2019".colorize(:cyan).underline
     make_headphones
     list_headphones
@@ -25,7 +26,7 @@ class Headphones::CLI
 
   def list_headphones
     Headphone.all.each.with_index(1) do |headphone,index|
-      puts '%-40.40s'%"#{index}. #{headphone.name}"+" $#{headphone.price} || Design: "+"%2.2s"%"#{headphone.design}"+" - Features: #{headphone.features} - Sound: "+"%2.2s"%"#{headphone.sound}"+" - Value: #{headphone.value}"
+      puts '%-40.40s'%"#{index}. #{headphone.name}"+" $#{headphone.price} || Design: "+"%2.2s"%"#{headphone.design}"+" - Features: #{headphone.features} - Sound: "+"%2.2s"%"#{headphone.sound}"+" - Value: #{headphone.value} | Total: #{headphone.total}"
       #added format string e.g. '%-40.40s' so that the lists seem neater. the negative sign ensures the string is aligned to the left, otherwise it'll align to the right
     end
     puts ""
@@ -34,7 +35,7 @@ class Headphones::CLI
 
   def list_sorted_headphones(list)
     list.each.with_index(1) do |headphone,index|
-      puts '%-40.40s'%"#{index}. #{headphone.name}"+" $#{headphone.price} || Design: "+"%2.2s"%"#{headphone.design}"+" - Features: #{headphone.features} - Sound: "+"%2.2s"%"#{headphone.sound}"+" - Value: #{headphone.value}"
+      puts '%-40.40s'%"#{index}. #{headphone.name}"+" $#{headphone.price} || Design: "+"%2.2s"%"#{headphone.design}"+" - Features: #{headphone.features} - Sound: "+"%2.2s"%"#{headphone.sound}"+" - Value: #{headphone.value} | Total: #{headphone.total}"
     end
   end
 
@@ -46,6 +47,7 @@ class Headphones::CLI
       3. Features
       4. Sound
       5. Value
+      6. Total
       Enter "exit" to proceed
     DOC
     puts ""
@@ -53,28 +55,39 @@ class Headphones::CLI
     input=gets.chomp.downcase
     case input
     when "1"
+      puts ""
       puts "Sort by price (cheapest to most expensive)".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.price}
       list_sorted_headphones(@list)
     when "2"
+      puts ""
       puts "Sort by design".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.design}.reverse! #included reverse for all cases below so that the ones with higher points appear on top
       list_sorted_headphones(@list)
     when "3"
+      puts ""
       puts "Sort by features".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.features}.reverse!
       list_sorted_headphones(@list)
     when "4"
+      puts ""
       puts "Sort by sound".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.sound}.reverse!
       list_sorted_headphones(@list)
     when "5"
+      puts ""
       puts "Sort by value".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.value}.reverse!
+      list_sorted_headphones(@list)
+    when "6"
+      puts ""
+      puts "Sort by total".colorize(:cyan)
+      @list= Headphone.all.sort_by{|i| i.total}.reverse!
       list_sorted_headphones(@list)
     when "exit"
       return
     else
+      puts ""
       puts "Please enter valid option".colorize(:light_red)
     end
     puts ""
@@ -189,6 +202,7 @@ class Headphones::CLI
 
 
   def goodbye
+    puts ""
     puts "Thank you and have a nice day!".colorize(:cyan)
   end
 

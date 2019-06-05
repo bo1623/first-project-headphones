@@ -31,6 +31,7 @@ class Headphones::Scraper
     index=0
     headphones.each do |headphone,stat| #iterating over the array of stats to add the stats into the "headphones" hash
       headphones[headphone]=stats[index]
+      headphones[headphone][:total]=stats[index].values.sum
       headphones[headphone][:price]=price_array[index]
       headphones[headphone][:review_url]=review_links[index]
       headphones[headphone][:comparison_url]=comparison_links[index]
