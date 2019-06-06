@@ -197,6 +197,7 @@ class Headphones::CLI
         puts "Please enter valid option".colorize(:light_red)
         last_request
       end
+      last_request
     end
   end
 
