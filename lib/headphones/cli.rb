@@ -57,10 +57,15 @@ class Headphones::CLI
       3. Features
       4. Sound
       5. Value
-      6. Total
-      Enter "exit" to proceed
+      6. Brand
+      7. Total
     DOC
     puts ""
+    puts "Alternatively, please enter '8' if you would like to filter by brand".colorize(:cyan)
+    puts ""
+    puts "8. Filter by brand"
+    puts ""
+    puts "Enter 'exit' to proceed"
 
     input=gets.chomp.downcase
     case input
@@ -91,9 +96,18 @@ class Headphones::CLI
       list_sorted_headphones(@list)
     when "6"
       puts ""
+      puts "Sort by brand".colorize(:cyan)
+      @list= Headphone.all.sort_by{|i| i.brand.name}
+      list_sorted_headphones(@list)
+    when "7"
+      puts ""
       puts "Sort by total".colorize(:cyan)
       @list= Headphone.all.sort_by{|i| i.total}.reverse!
       list_sorted_headphones(@list)
+    when "8"
+      puts ""
+      puts "Filter by brand".colorize(:cyan)
+      find_by_brand
     when "exit"
       return
     else
@@ -104,17 +118,38 @@ class Headphones::CLI
     menu #allows user to keep sorting according to different attributes until he/she decides to exit
   end
 
+  def find_by_brand
+    puts ""
+    puts "Please select your desired brand:"
+    brand_array = Brand.all.map{|brand| brand.name}
+    Brand.all.each.with_index(1){|brand,index| puts "#{index}. #{brand.name}"}
+    input=gets.chomp.to_i
+    if (1..11).to_a.include?(input)
+      puts ""
+      puts "Showing #{Brand.all[input-1].name} headphones:".colorize(:cyan)
+      @list = Headphone.all.select{|headphone| headphone.brand == Brand.all[input-1]}
+      list_sorted_headphones(@list)
+    else
+      puts ""
+      puts "Please enter a valid number".colorize(:light_red)
+      find_by_brand
+    end
+  end
+
   def more_details
     puts ""
-    puts "If you would like to compare prices or read a summarized review, please enter the headphone number from the list above:".colorize(:cyan)
+    puts "If you would like to compare prices or read a summarized review, please enter the headphone number from the list below:".colorize(:cyan)
+    puts ""
+    list_sorted_headphones(@list)
     input=gets.chomp
     if input=="exit"
       return
-    elsif (1..15).to_a.include?(input.to_i)
+    elsif (1..@list.size).to_a.include?(input.to_i)
       @index=input.to_i-1
       run_details
     else
-      puts "Please enter 'exit' or a valid number between 1 to 15".colorize(:light_red)
+      puts ""
+      puts "Please enter 'exit' or a valid number between 1 to #{@list.size}".colorize(:light_red)
       more_details
     end
     #assign the input to a new variable over here so we can call the right price comparison or review
