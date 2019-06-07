@@ -10,6 +10,7 @@ class Headphones::CLI
     puts ""
     puts "Top 15 Headphones to Own for 2019".colorize(:cyan).underline
     make_headphones
+    make_brand
     list_headphones
     menu
     more_details
@@ -23,6 +24,15 @@ class Headphones::CLI
     @list=Headphone.all
   end
 
+  def make_brand
+    brand_array=@list.map{|i| i.name.to_s.split().first}.uniq #to_s is to convert name of headphone from symbol to string
+    brand_array.each{|brand| Brand.new(brand)} #creating new instance of each brand
+    @list.each do |headphone|
+      Brand.all.each do |brand|
+        headphone.brand=brand if headphone.name.to_s.split().first == brand.name #each headphone belongs to a brand. each brand has many headphones
+      end
+    end
+  end
 
   def list_headphones
     Headphone.all.each.with_index(1) do |headphone,index|
@@ -173,6 +183,7 @@ class Headphones::CLI
   end
 
   def last_request
+    puts ""
     puts "Would you like to continue browsing (y/n)?".colorize(:cyan)
     input=gets.chomp.downcase
     if input!="y"

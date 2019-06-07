@@ -3,6 +3,7 @@ require_relative "./headphones/cli"
 require_relative "./headphones/scraper"
 require_relative "./headphones/headphone"
 require_relative "./headphones/details_scraper"
+require_relative "./headphones/brand"
 
 #this file acts as my environment, it's a single file that headphones can require and then require all my other dependencies
 
