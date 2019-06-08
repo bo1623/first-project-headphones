@@ -120,7 +120,7 @@ class Headphones::CLI
 
   def find_by_brand
     puts ""
-    puts "Please select your desired brand:"
+    puts "Please select your desired brand:".colorize(:cyan)
     brand_array = Brand.all.map{|brand| brand.name}
     Brand.all.each.with_index(1){|brand,index| puts "#{index}. #{brand.name}"}
     input=gets.chomp.to_i
@@ -233,6 +233,9 @@ class Headphones::CLI
       input=gets.chomp
       case input
       when "1"
+        puts ""
+        list_sorted_headphones(@list)
+        puts ""
         menu
         more_details
       when "2"
